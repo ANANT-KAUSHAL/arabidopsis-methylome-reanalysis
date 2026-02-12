@@ -1,88 +1,73 @@
 Epigenetic Profiling: Methylation Landscape Analysis (WGBS)
-Project Overview
+ Project Overview
 
-This repository contains a reproducible bioinformatics pipeline for the re-analysis of Whole Genome Bisulfite Sequencing (WGBS) data. The project focuses on dissecting the epigenetic landscape of Arabidopsis thaliana, specifically identifying Differentially Methylated Regions (DMRs) and analyzing global methylation shifts between Wild Type (WT) and Epigenetic Mutants.
+This repository contains a reproducible bioinformatics pipeline for re-analysis of Whole Genome Bisulfite Sequencing (WGBS) data in Arabidopsis thaliana. The workflow identifies Differentially Methylated Regions (DMRs) and characterizes genome-wide methylation shifts between Wild Type (WT) and Epigenetic Mutants.
 
-Unlike standard pipelines that rely solely on fractional methylation differences, this workflow integrates Dispersion Shrinkage for Sequencing data (DSS). This statistical framework uses Beta-binomial models with spatial smoothing to account for biological variance and sequencing depth, ensuring robust detection of epigenetic regulatory events.
+The statistical framework integrates DSS (Dispersion Shrinkage for Sequencing data) using Beta-binomial modeling with spatial smoothing to ensure biologically robust DMR detection.
+data/        # Raw coverage files (excluded)
+figures/     # Generated plots
+results/     # Significant_DMRs.csv
+scripts/     # WGBS_Analysis.R
+Methodology
 
-📂 Repository Structure
+Pre-processing
 
-data/
-→ Raw coverage files and Bismark reports (excluded)
+Trim Galore! – Adapter trimming
 
-figures/
-→ methylation_density.png
-→ dmr_heatmap.png
+Bismark (v0.22.3) – Alignment to TAIR10
 
-results/
-→ Significant_DMRs.csv
+Cytosine methylation extraction (CpG, CHG, CHH)
 
-scripts/
-→ WGBS_Analysis.R
+Statistical Analysis
 
-README.md
-LICENSE
+Coverage filtering (min 10x)
 
-🔬 Methodology & Workflow
-1️⃣ Data Pre-processing
+PCR bias filtering (>99.9 percentile)
 
-• Trimming – Trim Galore! (Adapter removal & quality control)
-• Alignment – Bismark (v0.22.3) mapping to TAIR10 reference genome
-• Methylation Calling – Extraction of cytosine methylation in CpG, CHG, and CHH contexts
+Differential methylation testing via DSS
 
-2️⃣ Statistical Analysis (R / Bioconductor)
+Spatial smoothing for regional DMR detection
 
-• Quality Control – Dynamic filtering of PCR duplicates (>99.9th percentile) and low-coverage bases (<10x)
-• Modeling – methylKit and DSS packages used for differential methylation testing
-• Smoothing – Spatial correlation filters applied to detect regional methylation changes rather than isolated loci
+Key Results
+1. Global Methylation Landscape
 
-📊 Key Results
-1️⃣ Global Methylation Shift
+Distribution of fractional methylation levels (0–1 scale).
+Bimodal peaks validate plant methylome quality. Mutant samples show a global hypomethylation shift compared to WT.
 
-Distribution of fractional methylation levels (0 = unmethylated, 1 = fully methylated).
-The bimodal peaks characteristic of plant genomes confirm high-quality methylation calling.
-A distinct hypomethylation shift is observed in mutant lines compared to Wild Type.
+2️. Differentially Methylated Regions (DMRs)
 
-2️⃣ Differentially Methylated Regions (DMRs)
+Hierarchical clustering of top 50 variable regions reveals distinct epigenetic separation between WT and Mutant lines.
 
-Hierarchical clustering of the top 50 most variable methylation regions reveals a distinct epigenetic signature separating Control and Mutant groups.
+Output
 
-🧬 Data Availability
-
-Final Output: Significant_DMRs.csv
-
+results/Significant_DMRs.csv
 Contains:
-• Chromosome
-• Start
-• End
-• Methylation Difference (LogFC)
-• FDR-corrected P-values (q-values)
 
-💻 Usage
+Chromosome
 
-To replicate the analysis:
+Start
 
-Install required R packages
+End
 
-Load coverage files
+LogFC (Methylation difference)
 
-Perform filtering
+FDR-adjusted q-values
+scripts/WGBS_Analysis.R
+Required packages:
 
-Run DSS-based differential methylation testing
+methylKit
 
-Export significant DMRs
+DSS
 
-📦 Dependencies
+genomation
 
-• R (>= 4.0.0)
-• methylKit
-• DSS
-• genomation
-• ggplot2
+ggplot2
 
 👨‍💻 Author
 
 Anant Kaushal
-Computational Epigenetics Researcher
-Specializing in Plant Genomics & Transcriptional Regulation
-© 2026 Anant Kaushal. Licensed under MIT.
+Computational Epigenetics | Plant Genomics | Epigenomic Regulation
+
+💻 Reproducibility
+
+Main script:
