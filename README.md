@@ -41,11 +41,11 @@ The pipeline implements a comprehensive "Raw-to-DMR" strategy:
 ## 📊 Key Results
 
 ### 1. Global Methylation Shift
-![Methylation Density](methylation_density.png)
+![Methylation Density](figures/methylation_density.png)
 *Figure 1: Distribution of Fractional Methylation levels (0 = Unmethylated, 1 = Fully Methylated). The bimodal peaks (characteristic of plant genomes) confirm high-quality methylation calling. A distinct hypomethylation shift is observed in the mutant lines (Red) compared to Wild Type (Black).*
 
 ### 2. Differentially Methylated Regions (DMRs)
-![DMR Heatmap](dmr_heatmap.png)
+![DMR Heatmap](figures/dmr_heatmap.png)
 *Figure 2: Hierarchical clustering of the top 50 most variable methylation regions. The heatmap reveals a distinct epigenetic signature separating the Control and Stress/Mutant groups.*
 
 ## 🧬 Data Availability
