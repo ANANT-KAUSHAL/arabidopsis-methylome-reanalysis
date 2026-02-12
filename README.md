@@ -26,12 +26,12 @@ Unlike standard pipelines that rely solely on fractional methylation differences
 
 ## 🛠️ Methodology & Workflow
 
-The pipeline implements a comprehensive "Raw-to-DMR" strategy:
+The pipeline implements a comprehensive "Reanalysis" strategy, focusing on downstream statistical validity:
 
-1.  **Data Pre-processing:**
-    * **Trimming:** `Trim Galore!` (Adapter removal & QC).
-    * **Alignment:** `Bismark` (v0.22.3) mapping to TAIR10 reference genome.
-    * **Methylation Calling:** Extraction of Cytosine methylation in **CpG, CHG, and CHH** contexts.
+1.  **Data Acquisition & Pre-processing:**
+    * **Source:** WGBS datasets comprising Wild Type and Mutant lines.
+    * **Alignment Strategy:** Utilized **Bismark-aligned coverage files** (mapped to TAIR10 reference genome) to streamline the pipeline and focus computational resources on statistical DMR identification.
+    * **Context Filtering:** Methylation calls were filtered to retain high-confidence **CpG** sites.
 
 2.  **Statistical Analysis (R/Bioconductor):**
     * **Quality Control:** Dynamic filtering of PCR duplicates (>99.9th percentile) and low-coverage bases (<10x).
@@ -50,7 +50,7 @@ The pipeline implements a comprehensive "Raw-to-DMR" strategy:
 
 ## 🧬 Data Availability
 
-* **Final Output:** [Significant_DMRs.csv](Significant_DMRs.csv)
+* **Final Output:** [Significant_DMRs.csv](results/Significant_DMRs.csv)
     * *Contains:* Chromosome, Start, End, Methylation Difference (LogFC), and FDR-corrected P-values (q-values).
 
 ## 💻 Usage
