@@ -1,36 +1,88 @@
-# Epigenetic Profiling: Methylation Landscape Analysis
+Epigenetic Profiling: Methylation Landscape Analysis (WGBS)
+Project Overview
 
-## 🧬 Project Overview
-This repository contains a bioinformatics pipeline for processing **Whole Genome Bisulfite Sequencing (WGBS)** data. 
-It focuses on identifying **Differentially Methylated Regions (DMRs)** and analyzing the global methylation shift between Wild Type and Epigenetic Mutants.
+This repository contains a reproducible bioinformatics pipeline for the re-analysis of Whole Genome Bisulfite Sequencing (WGBS) data. The project focuses on dissecting the epigenetic landscape of Arabidopsis thaliana, specifically identifying Differentially Methylated Regions (DMRs) and analyzing global methylation shifts between Wild Type (WT) and Epigenetic Mutants.
 
-This workflow replicates standard high-resolution epigenetic analysis pipelines, specifically utilizing count-based statistical modeling to account for biological variance and sequencing depth.
+Unlike standard pipelines that rely solely on fractional methylation differences, this workflow integrates Dispersion Shrinkage for Sequencing data (DSS). This statistical framework uses Beta-binomial models with spatial smoothing to account for biological variance and sequencing depth, ensuring robust detection of epigenetic regulatory events.
 
-## 📊 Key Results
+📂 Repository Structure
 
-### 1. Global Methylation Shift
-![Methylation Density](figures/methylation_density.png)
-*Figure 1: Distribution of Fractional Methylation levels (0 = Unmethylated, 1 = Fully Methylated). The bimodal peaks confirm high-quality methylation calling. Note the shift in the mutant lines (Red), indicating global hypomethylation.*
+data/
+→ Raw coverage files and Bismark reports (excluded)
 
-### 2. Differentially Methylated Regions (DMRs)
-![DMR Heatmap](figures/dmr_heatmap.png)
-*Figure 2: Hierarchical clustering of the top 50 most variable methylation regions. The heatmap reveals a distinct epigenetic signature separating the Control and Stress/Mutant groups.*
+figures/
+→ methylation_density.png
+→ dmr_heatmap.png
 
-## 📂 Data & Output
-- **Full Results:** [Significant_DMRs.csv](figures/Significant_DMRs.csv) (Contains LogFC, methylation differences, and P-values for all significant genomic regions).
+results/
+→ Significant_DMRs.csv
 
-## 🛠️ Methodology
-### 1. Data Pre-processing & Alignment
-* **Quality Control:** Raw fastq reads were trimmed using `Trim Galore!` to remove adapter sequences and low-quality bases.
-* **Alignment:** Bisulfite-converted reads were mapped to the *Arabidopsis thaliana* reference genome (TAIR10) using **Bismark** (v0.22.3).
-* **Methylation Calling:** Cytosine methylation states were extracted for all three sequence contexts characteristic of plants: **CpG, CHG, and CHH**.
+scripts/
+→ WGBS_Analysis.R
 
-### 2. Differential Methylation Analysis (R/Bioconductor)
-* **Package:** Analysis was performed using **methylKit** and **DSS** (Dispersion Shrinkage for Sequencing data), which are optimized for count-based WGBS data.
-* **Filtering:** To ensure high confidence, bases with low coverage (<10x) or extremely high coverage (>99.9th percentile, indicating PCR bias) were discarded.
-* **DMR Identification:** Differentially Methylated Regions (DMRs) were identified using the DSS `callDMR` function, applying a smoothing filter to account for spatial correlation of methylation sites.
-* **Annotation:** Significant DMRs were annotated to genomic features (Promoters, Exons, Introns, Transposable Elements) using `genomation`.
+README.md
+LICENSE
 
-## 👨‍💻 Author
-**Anant Kaushal**
-*Computational Epigenetics Researcher*
+🔬 Methodology & Workflow
+1️⃣ Data Pre-processing
+
+• Trimming – Trim Galore! (Adapter removal & quality control)
+• Alignment – Bismark (v0.22.3) mapping to TAIR10 reference genome
+• Methylation Calling – Extraction of cytosine methylation in CpG, CHG, and CHH contexts
+
+2️⃣ Statistical Analysis (R / Bioconductor)
+
+• Quality Control – Dynamic filtering of PCR duplicates (>99.9th percentile) and low-coverage bases (<10x)
+• Modeling – methylKit and DSS packages used for differential methylation testing
+• Smoothing – Spatial correlation filters applied to detect regional methylation changes rather than isolated loci
+
+📊 Key Results
+1️⃣ Global Methylation Shift
+
+Distribution of fractional methylation levels (0 = unmethylated, 1 = fully methylated).
+The bimodal peaks characteristic of plant genomes confirm high-quality methylation calling.
+A distinct hypomethylation shift is observed in mutant lines compared to Wild Type.
+
+2️⃣ Differentially Methylated Regions (DMRs)
+
+Hierarchical clustering of the top 50 most variable methylation regions reveals a distinct epigenetic signature separating Control and Mutant groups.
+
+🧬 Data Availability
+
+Final Output: Significant_DMRs.csv
+
+Contains:
+• Chromosome
+• Start
+• End
+• Methylation Difference (LogFC)
+• FDR-corrected P-values (q-values)
+
+💻 Usage
+
+To replicate the analysis:
+
+Install required R packages
+
+Load coverage files
+
+Perform filtering
+
+Run DSS-based differential methylation testing
+
+Export significant DMRs
+
+📦 Dependencies
+
+• R (>= 4.0.0)
+• methylKit
+• DSS
+• genomation
+• ggplot2
+
+👨‍💻 Author
+
+Anant Kaushal
+Computational Epigenetics Researcher
+Specializing in Plant Genomics & Transcriptional Regulation
+© 2026 Anant Kaushal. Licensed under MIT.
